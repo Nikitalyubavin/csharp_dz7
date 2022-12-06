@@ -17,20 +17,25 @@ PrintArray(array);
 
 int position = UserInput("Введите позицию необходимого числа в массиве: ", "Введено неверное значение!");
 Console.Write($"{position} -> ");
-PositionOfNumber(array);
+PositionOfNumber(position, array);
 
 
-void PositionOfNumber(int[,] inArray)
+
+void PositionOfNumber(int position, int[,] arr)
 {
-    for (int i = 0; i < inArray.Length; i++)
+    int i = 0;
+    int j = 0;
+    if (position > arr.Length || position <= 0) Console.WriteLine("такого числа в массиве нет!");
+    while (i < arr.GetLength(0))
     {
-        if (i == (position - 1))
+        if (position > (arr.GetLength(1) * i) && position <= (arr.GetLength(1) * (i + 1)))
         {
-            Console.WriteLine($"{i}");
+            j = position - 1 - (i * arr.GetLength(1));
+            Console.WriteLine($"данный элемент в массиве принимает значение {arr[i,j]}");
             break;
         }
+        i++;
     }
-    Console.WriteLine("такого числа в массиве нет!");
 }
 
 int[,] ArrayOfRealNumbers(int rows, int columns, int minValue, int maxValue)
@@ -52,7 +57,7 @@ void PrintArray(int[,] inArray)
     {
         for (int j = 0; j < inArray.GetLength(1); j++)
         {
-            Console.Write($"{inArray[i,j]}  ");
+            Console.Write($"{inArray[i,j]} \t");
         }
         Console.WriteLine();
     }
@@ -64,7 +69,7 @@ int UserInput(string message, string errorMessage)
     while (true)
     {
         Console.Write(message);
-        if (int.TryParse(Console.ReadLine()??"", out int number)) return number;
+        if (int.TryParse(Console.ReadLine()??"", out int number) && number > 0) return number;
         else Console.WriteLine(errorMessage);
     }
 }
