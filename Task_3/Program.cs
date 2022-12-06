@@ -9,18 +9,19 @@
 Console.Clear();
 int rows = UserInput("Введите количество строк: ", "Введено неверное значение!");
 int columns = UserInput("Введите количество столбцов: ", "Введено неверное значение!");
-int[,] array = ArrayOfRealNumbers(rows, columns, 0, 100);
+int[,] array = ArrayOfRealNumbers(rows, columns, -100, 100);
 PrintArray(array);
 Console.Write("Среднее арифметическое каждого столбца: ");
-Average(array);
+ShowAverage(array);
 
 
 
-void Average(int[,] array)
+void ShowAverage(int[,] array)
 {
     int sum = 0;
     double result;
-    for (int j = 0; j < array.GetLength(1); j++)
+    int j = 0;
+    for (; j < array.GetLength(1) - 1; j++)
     {
         for (int i = 0; i < array.GetLength(0); i++)
         {
@@ -29,6 +30,15 @@ void Average(int[,] array)
         result = Math.Round(Convert.ToDouble(sum) / Convert.ToDouble(array.GetLength(0)), 1);
         Console.Write($"{result}; ");
         sum = 0;
+    }
+    if (j == array.GetLength(1) - 1)
+    {
+        for (int i = 0; i < array.GetLength(0); i++)
+        {
+            sum += array[i,j];
+        }
+        result = Math.Round(Convert.ToDouble(sum) / Convert.ToDouble(array.GetLength(0)), 1);
+        Console.Write($"{result}.");
     }
 }
 
@@ -63,7 +73,7 @@ int UserInput(string message, string errorMessage)
     while (true)
     {
         Console.Write(message);
-        if (int.TryParse(Console.ReadLine()??"", out int number)) return number;
+        if (int.TryParse(Console.ReadLine()??"", out int number) && number > 0) return number;
         else Console.WriteLine(errorMessage);
     }
 }
