@@ -43,7 +43,7 @@ int UserInput(string message, string errorMessage)
     while (true)
     {
         Console.Write(message);
-        if (int.TryParse(Console.ReadLine()??"", out int number)) return number;
+        if (int.TryParse(Console.ReadLine()??"", out int number) && number > 0) return number;
         else Console.WriteLine(errorMessage);
     }
 }
